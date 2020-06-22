@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="/layui/css/layui.css">
+	</head>
+	<body>
+		<script src="/layui/layui.js"></script>
+		
+		 
+		<script>
+		//注意：导航 依赖 element 模块，否则无法进行功能性操作
+		layui.use('element', function(){
+		  var element = layui.element;	  
+		  //…
+		});
+		</script>
+		
+		<!-- 表单 -->
+		<script>
+			layui.use(['form', 'layedit', 'laydate','layedit'], function(){
+			  var form = layui.form
+			  ,layer = layui.layer
+			    ,layedit = layui.layedit;
+				var editIndex = layedit.build('LAY_demo_editor');
+			  form.verify({
+			      title: function(value){
+			        if(value.length < 5){
+			          return '标题至少得5个字符啊';
+			        }
+			      }
+			      ,pass: [
+			        /^[\S]{6,12}$/
+			        ,'密码必须6到12位，且不能出现空格'
+			      ]
+			      ,content: function(value){
+			        layedit.sync(editIndex);
+			      }
+			    });
+			  })
+		</script>
+		<script type="text/javascript" th:inline="javascript">
+			//切换验证码
+			function refreshCode(){
+				//1.获取验证码图片对象
+				var vcode = document.getElementById("vcode");
+				//2.设置其src属性，加时间戳
+				vcode.src =
+						"/checkCode?"+new Date().getTime();
+				$('.vcode').attr("src", src);
+			}
+		</script>
+		<div class="layui-container layui-col-md6 layui-col-md-offset3" style="height: 270px;width: 600px;margin-top: 200px">
+			<div class="layui-icon layui-icon-face-smile-b layui-col-md-offset4"
+				 style="font-size: 40px;width: 500px;height: 80px" th:text="#{login.tip}">
+				用户登录
+			</div>
+			<form class="layui-form layui-col-md10 layui-col-md-offset1" action="/login">
+				
+				  <div class="layui-form-item">
+				    <label class="layui-form-label" th:text="#{login.email}">注册邮箱</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="email" lay-verify="email" lay-reqtext="输入正确邮箱格式"
+							 placeholder="请输入邮箱" th:placeholder="#{login.email}" autocomplete="on" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label" th:text="#{login.password}">密码</label>
+				    <div class="layui-input-block">
+				      <input type="password" name="password" lay-verify="required" lay-reqtext="请输入密码"
+							 placeholder="请输入密码" th:placeholder="#{login.password}" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				
+				  <div class="layui-inline">
+				    <label class="layui-form-label">验证码</label>
+				    <div class="layui-input-inline">
+				      <input type="text" name="checkCode" lay-verify="required" autocomplete="off" class="layui-input">
+				    </div>
+					<a href="javascript:refreshCode()"><img th:src="@{/checkCode}" title="看不清点击刷新" id="vcode"></a>
+				  </div>
+				<div th:text="${msg}" class="layui-col-md-offset6"></div>
+				  <div class="layui-form-item layui-row" style="margin-top: 20px;" >
+				    <div class=" layui-col-md-offset5 layui-col-md6">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" th:text="#{login.btn}">登录</button>
+				      <button type="reset" class="layui-btn layui-btn-primary" th:text="#{login.btn2}">重置</button>
+						<a class="layui-btn" href="register.html">注册</a>
+				    </div>
+				  </div>
+				<div class="layui-col-md3 layui-col-md-offset6 layui-row">
+					<a style="font-size: small" th:href="@{/login.html(l='zh_CN')}">中文</a>
+					<a>|</a>
+					<a style="font-size: small" th:href="@{/login.html(l='en_US')}">English</a>
+				</div>
+
+			 </form>
+
+		</div>
+		
+	</body>
+	
+</html>

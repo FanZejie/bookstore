@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="/layui/css/layui.css">
+	</head>
+	<body class="layui-container">
+		<script src="/layui/layui.js"></script>
+		
+		 
+		<script>
+		//注意：导航 依赖 element 模块，否则无法进行功能性操作
+		layui.use('element', function(){
+		  var element = layui.element;	  
+		  //…
+		});
+		</script>
+		
+		<!-- 表单 -->
+		<script>
+			layui.use(['form', 'layedit', 'laydate','layedit'], function(){
+			  var form = layui.form
+			  ,layer = layui.layer
+			    ,layedit = layui.layedit
+			  ,laydate = layui.laydate;
+			  //日期
+			    laydate.render({
+			      elem: '#date'
+			    });
+			    laydate.render({
+			      elem: '#date1'
+			    });
+			  //创建一个编辑器
+			    var editIndex = layedit.build('LAY_demo_editor');
+			  form.verify({
+			      title: function(value){
+			        if(value.length < 5){
+			          return '标题至少得5个字符啊';
+			        }
+			      }
+			      ,pass: [
+			        /^[\S]{6,12}$/
+			        ,'密码必须6到12位，且不能出现空格'
+			      ]
+			      ,content: function(value){
+			        layedit.sync(editIndex);
+			      }
+			    });
+			  })
+		</script>
+		<script type="text/javascript" th:inline="javascript">
+			//切换验证码
+			function refreshCode(){
+				//1.获取验证码图片对象
+				var vcode = document.getElementById("vcode");
+				//2.设置其src属性，加时间戳
+				vcode.src =
+						"/checkCode?"+new Date().getTime();
+				$('.vcode').attr("src", src);
+			}
+		</script>
+		<div class="layui-container layui-row">
+			<form class="layui-form layui-col-md8 layui-col-md-offset2" action="/register">
+				
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">用户名</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">密码</label>
+				    <div class="layui-input-block">
+				      <input type="password" name="password" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">邮箱</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+				<div class="layui-inline">
+					<label class="layui-form-label">验证码</label>
+					<div class="layui-input-inline">
+						<input type="text" name="checkCode" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+					<a href="javascript:refreshCode()"><img th:src="@{/checkCode}" title="看不清点击刷新" id="vcode"></a>
+				</div>
+				<div th:text="${msg}" class="layui-col-md-offset6"></div>
+				  <div class="layui-form-item layui-row" style="margin-top: 20px;" >
+				    <div class=" layui-col-md-offset5 layui-col-md4">
+				      <button type="submit" class="layui-btn" >立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+			 </form>
+		</div>
+		
+	</body>
+	
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="/layui/css/layui.css">
+	</head>
+	<body>
+		<script src="/layui/layui.js"></script>
+		<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			$(function () {
+				getAllNeed();
+				getAllSupply();
+			});
+
+			function getAllNeed() {
+				$.ajax({
+					url: "/showAllNeed",
+					success: function (data_need) {//此时返回的是一个list
+						showTableNeed(data_need);
+					}
+				})
+			}
+
+			function showTableNeed(data_need) {
+				var html = "";
+				for (var i = 0; i < data_need.length; i++) {
+					html += "<tr>" +
+							"<td>" + data_need[i].bookName + "</td>"+
+					"<td>" + data_need[i].username + "</td>"+
+					"<td>" + data_need[i].price + "</td>"+
+					"<td>" + data_need[i].description + "</td>"
+					+ "</tr>"
+				}
+				$("#tbody_need").html(html);
+			}
+
+
+			function getAllSupply() {
+				$.ajax({
+					url: "/showAllSupply",
+					success: function (data_supply) {//此时返回的是一个list
+						showTableSupply(data_supply);
+					}
+				})
+			}
+			function showTableSupply(data_supply){
+				var html = "";
+				for (var i = 0; i < data_supply.length; i++) {
+					html += "<tr>" +
+							"<td>" + data_supply[i].bookName + "</td>"+
+							"<td>" + data_supply[i].username + "</td>"+
+							"<td>" + data_supply[i].price + "</td>"+
+							"<td>" + data_supply[i].description + "</td>"
+							+ "</tr>"
+				}
+				$("#tbody_supply").html(html);
+			}
+			//注意：导航 依赖 element 模块，否则无法进行功能性操作
+			layui.use('element', function () {
+				var element = layui.element;
+				//…
+			});
+		</script>
+		<script>
+		layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		
+
+
+			laypage.render({
+				elem: 'demo8'
+				,count: 100
+				,layout: ['count', 'prev', 'page', 'next',  'refresh', 'skip']
+				,jump: function(obj){
+					console.log(obj)
+				}
+			});
+
+					 
+		});
+		</script>
+		<!-- 导航栏 -->
+		<ul class="layui-nav" lay-filter="">
+
+
+				<li class="layui-nav-item">
+				    <a href="personalCenter.html">个人中心<span class="layui-badge-dot"></span></a>
+				  </li>
+				  <li class="layui-nav-item" style="margin-left: 20px">
+					  <a href="javascript:;"  th:text="${session.user.username}" style="width: 20px"></a>
+				    <dl class="layui-nav-child">
+				      <dd><a href="/logout">退出登录</a></dd>
+				    </dl>
+				  </li>
+
+		</ul>
+		 
+		<!-- 出售信息展示 -->
+		<div class="layui-tab layui-tab-card">
+		  <ul class="layui-tab-title layui-bg-green">
+		    <li class="layui-this">出售信息</li>
+		    <li>需求信息</li>
+
+		  </ul>
+		  <div class="layui-tab-content" style="height: 400px;">
+		    <div class="layui-tab-item layui-show" style="overflow: scroll;height: 390px">
+				<table class="layui-table">
+				  <colgroup>
+				    <col width="150">
+				    <col width="200">
+				    <col>
+				  </colgroup>
+				  <thead>
+				    <tr>
+				      <th>图书</th>
+				      <th>用户</th>
+				      <th>价格</th>
+				      <th>简介</th>
+				    </tr>
+				  </thead>
+				  <tbody id="tbody_need">
+
+				  </tbody>
+				</table>
+
+				
+			</div>
+		    <div class="layui-tab-item">
+				<table class="layui-table">
+					<colgroup>
+						<col width="150">
+						<col width="200">
+						<col>
+					</colgroup>
+					<thead>
+					<tr>
+						<th>图书</th>
+						<th>用户</th>
+						<th>价格</th>
+						<th>简介</th>
+					</tr>
+					</thead>
+					<tbody id="tbody_supply">
+
+					</tbody>
+				</table>
+
+				<div class="layui-row">
+					<div id="demo8" class="layui-col-md8 layui-col-md-offset2"></div>
+				</div>
+			</div>
+
+
+		  </div>
+		</div>
+		<!-- 轮播图 -->
+		<div class="layui-carousel" id="test1">
+		  <div carousel-item>
+		    <div><h1>广告位招租</h1></div>
+		    <div>广告图片1</div>
+		    <div>广告图片2</div>
+		    <div>广告图片3</div>
+		    <div>广告图片4</div>
+		  </div>
+		</div>
+		<!-- 条目中可以是任意内容，如：<img src=""> -->
+		<script>
+		layui.use('carousel', function(){
+		  var carousel = layui.carousel;
+		  //建造实例
+		  carousel.render({
+		    elem: '#test1'
+		    ,width: '100%' //设置容器宽度
+		    ,arrow: 'always' //始终显示箭头
+		    //,anim: 'updown' //切换动画方式
+		  });
+		});
+		</script>
+
+		<div style="height: 100px;">网站信息</div>
+		</div>
+		
+	</body>
+	
+</html>

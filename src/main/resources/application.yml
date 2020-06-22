@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/bookstore?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  messages:
+    basename: i18n.login
+mybatis:
+  type-aliases-package: cn.fzj.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml

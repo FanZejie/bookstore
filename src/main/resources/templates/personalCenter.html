@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="/layui/css/layui.css">
+	</head>
+		
+		
+		<frameset rows="*" cols="18%,*" framespacing="0" frameborder="no" border="0">
+		  <frame src="personal_left.html" frameborder="no" noresize="noresize" marginwidth="0" marginheight="0" name="left" >
+		  <frame src="personal_main.html" name="main">
+		</frameset>
+		
+		<noframes>
+			
+		<body>您的浏览器不支持框架！
+			<script src="/layui/layui.js"></script>
+			<script>
+			//注意：导航 依赖 element 模块，否则无法进行功能性操作
+			layui.use('element', function(){
+			  var element = layui.element;	  
+			  //…
+			});
+			</script>
+		</body>
+		</noframes>
+	
+	
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="/layui/css/layui.css">
+	</head>
+	<script src="/layui/layui.js"></script>
+	<script>
+	//注意：导航 依赖 element 模块，否则无法进行功能性操作
+	layui.use('element', function(){
+	  var element = layui.element;
+	});
+	</script>
+	<body style="background-color: #393D49;">
+	<a class="layui-btn layui-btn-warm layui-icon layui-icon-home" href="index.html" style="bottom: 10px;" target="_top"> 返回首页</a>
+	<div style="height: 20px"></div>
+		<ul class="layui-nav layui-nav-tree" lay-filter="test" style="width: 100%;">
+
+			<li class="layui-nav-item layui-nav-itemed">
+				<a href="javascript:;">信息发布</a>
+				<dl class="layui-nav-child">
+					<dd><a href="pushNeed.html" target="main">发布二手书需求</a></dd>
+					<dd><a href="saleBook.html" target="main">出售二手书</a></dd>
+				</dl>
+			</li>
+			<li class="layui-nav-item layui-nav-itemed">
+				<a href="javascript:;">我的发布</a>
+				<dl class="layui-nav-child">
+					<dd><a href="/showMyNeed" target="main">已发布需求</a></dd>
+					<dd><a href="/showMySupply" target="main">正在出售</a></dd>
+				</dl>
+			</li>
+
+		   <li class="layui-nav-item layui-nav-itemed">
+		      <a href="javascript:;">个人信息修改</a>
+		      <dl class="layui-nav-child">
+		        <dd><a href="updateInfo_name.html" target="main">修改昵称</a></dd>
+		        <dd><a href="updateInfo_password.html" target="main">修改密码</a></dd>
+		      </dl>
+		    </li>
+		</ul>
+	</body>
+</html>

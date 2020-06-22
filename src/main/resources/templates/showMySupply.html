@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<script src="/layui/layui.js"></script>
+
+<table class="layui-table" lay-skin="row">
+    <!--<colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>-->
+    <thead>
+    <tr>
+        <th style="width: 30px">编号</th>
+        <th>书名</th>
+        <th style="width: 60px">出价</th>
+        <th>简介</th>
+        <th>图片</th>
+        <th style="width: 60px">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="supply:${supplies}">
+        <th th:text="${supply.getId()}"></th>
+        <td th:text="${supply.getBookName()}"></td>
+        <td th:text="${supply.getPrice()}"></td>
+        <td th:text="${supply.getDescription()}"></td>
+        <td th:text="${supply.getPicture()}"></td>
+        <td> <a class="layui-btn" th:href="@{/delSupply?dealId={dealId}(dealId=${supply.getId()})}">删除</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

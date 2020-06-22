@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<script src="/layui/layui.js"></script>
+
+<table class="layui-table" lay-skin="row">
+
+    <thead>
+    <tr>
+        <th style="width: 30px">编号</th>
+        <th>书名</th>
+        <th style="width: 60px">出价</th>
+        <th>简介</th>
+        <th>图片</th>
+        <th style="width: 60px">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="need:${needs}">
+        <th th:text="${need.getId()}"></th>
+        <td th:text="${need.getBookName()}"></td>
+        <td th:text="${need.getPrice()}"></td>
+        <td th:text="${need.getDescription()}"></td>
+        <td th:text="${need.getPicture()}"></td>
+        <td> <a class="layui-btn" th:href="@{/delNeed?dealId={dealId}(dealId=${need.getId()})}">删除</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
