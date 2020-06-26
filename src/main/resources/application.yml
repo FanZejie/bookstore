@@ -1,5 +1,8 @@
 server:
   port: 8080
+  servlet:
+    encoding:
+      charset: utf-8
 spring:
   datasource:
     username: root
@@ -11,3 +14,5 @@ spring:
 mybatis:
   type-aliases-package: cn.fzj.pojo
   mapper-locations: classpath:mybatis/mapper/*.xml
+
+

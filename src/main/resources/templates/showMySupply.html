@@ -30,7 +30,7 @@
         <td th:text="${supply.getBookName()}"></td>
         <td th:text="${supply.getPrice()}"></td>
         <td th:text="${supply.getDescription()}"></td>
-        <td th:text="${supply.getPicture()}"></td>
+        <td><img width="50px" height="50px" th:src="@{/Path/{username}/{filename}(filename=${supply.getPicture()},username=${supply.getUsername()})}"></td>
         <td> <a class="layui-btn" th:href="@{/delSupply?dealId={dealId}(dealId=${supply.getId()})}">删除</a></td>
     </tr>
     </tbody>

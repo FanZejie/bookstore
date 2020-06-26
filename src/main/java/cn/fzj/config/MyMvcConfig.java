@@ -26,6 +26,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/updateInfo_password.html").setViewName("updateInfo_password");
         registry.addViewController("/showMyNeed.html").setViewName("showMyNeed");
         registry.addViewController("/showMySupply.html").setViewName("showMySupply");
+        registry.addViewController("/fileUpload.html").setViewName("fileUpload");
 
     }
     @Bean
@@ -38,7 +39,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginHandlerInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login","/login.html","/checkCode")
-                .excludePathPatterns("/register.html")
+                .excludePathPatterns("/register.html","/register")
                 .excludePathPatterns("/layui/**");
     }
 }

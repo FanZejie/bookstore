@@ -1,38 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
 		<title></title>
 		<link rel="stylesheet" href="/layui/css/layui.css">
+
 	</head>
 	<body>
 		<script src="/layui/layui.js"></script>
 		<script>
 		//注意：导航 依赖 element 模块，否则无法进行功能性操作
 		layui.use('element', function(){
-		  var element = layui.element;	  
-		  //…
+		  var element = layui.element;
 		});
 		</script>
 		<script>
-		layui.use('upload', function(){
-		  var upload = layui.upload;
-		   
-		  //执行实例
-		  var uploadInst = upload.render({
-		    elem: '#test1' //绑定元素
-		    ,url: '/upload/' //上传接口
-		    ,done: function(res){
-		      //上传完毕回调
-		    }
-		    ,error: function(){
-		      //请求异常回调
-		    }
-		  });
-		});
+			layui.use('upload', function() {
+				var $ = layui.jquery
+						, upload = layui.upload;
+
+				//普通图片上传
+				var uploadInst = upload.render({
+					elem: '#test1'
+					, url: "/upload" //改成您自己的上传接口
+					,accept:'images'
+					,acceptMime:'image/*'
+					,auto:true
+					,field:"file"
+					, before: function (obj) {
+						obj.preview(function (index, file, result) {
+							$('#demo1').attr('src', result); //图片链接（base64）
+						});
+					}
+					, done: function (res) {
+						$("#picture").val(res.url);
+						//如果上传失败
+						if (res.code > 0) {
+							return layer.msg('上传失败');
+						}
+					}
+					, error: function () {
+						//演示失败状态，并实现重传
+						var demoText = $('#demoText');
+						demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+						demoText.find('.demo-reload').on('click', function () {
+							uploadInst.upload();
+						});
+					}
+				});
+			});
 		</script>
 		<div class="layui-container layui-row">
-			<form class="layui-form layui-col-md8 layui-col-md-offset2" action="/addRequirement">
+			<form class="layui-form layui-col-md8 layui-col-md-offset2" action="/addRequirement" enctype="multipart/form-data">
 				
 				  <div class="layui-form-item">
 				    <label class="layui-form-label">书名</label>
@@ -55,10 +74,15 @@
 				  <div class="layui-form-item layui-form-text">
 				    <label class="layui-form-label">商品图片</label>
 				    <div class="layui-input-block">
-				      <button type="button" class="layui-btn" id="test1">
-				        <i class="layui-icon">&#xe67c;</i>上传图片
-				      </button>
-				    </div>
+						<div class="layui-upload">
+							<button type="button"  class="layui-btn" id="test1">上传图片</button>
+							<div class="layui-upload-list">
+								<img class="layui-upload-img" width="50px" id="demo1">
+								<p id="demoText"></p>
+							</div>
+						</div>
+						<input type="hidden" name="picture" id="picture">
+					</div>
 				  </div>
 				  
 		

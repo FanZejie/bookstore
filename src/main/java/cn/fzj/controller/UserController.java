@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     @Autowired
     UserServiceImpl userService;
+
     @RequestMapping("/login")
     public String login(Model model, HttpServletRequest request, HttpServletResponse response){
         String email = request.getParameter("email");
@@ -57,7 +58,7 @@ public class UserController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String checkCode = request.getParameter("checkCode");
-
+        System.out.println(email);
         HttpSession session = request.getSession();
         String checkCode_server = (String) session.getAttribute("CHECKCODE_SERVER");
         session.removeAttribute("CHECKCODE_SERVER");//确保验证码一次性
@@ -68,6 +69,7 @@ public class UserController {
         int flag = userService.register(username, password, email);
         if (flag == 1){
             request.setAttribute("msg","注册成功");
+            System.out.println("注册成功");
             return "login";
         }else {
             request.setAttribute("msg","注册失败，暂时无法注册，等待服务器维修");

@@ -38,7 +38,7 @@ public class DealController {
         String priceStr = request.getParameter("price");
         BigDecimal price = new BigDecimal(priceStr);
         String description = request.getParameter("description");
-        String picture = "图片url";
+        String picture = request.getParameter("picture");
         int flag = dealService.addRequirement(id, bookName, price, picture, description);
         if (flag == 1){
             model.addAttribute("msg","插入成功");
@@ -62,7 +62,7 @@ public class DealController {
         String priceStr = request.getParameter("price");
         BigDecimal price = new BigDecimal(priceStr);
         String description = request.getParameter("description");
-        String picture = "图片url";
+        String picture = request.getParameter("picture");
         int flag = dealService.addBook(id, bookName, price, picture, description);
         if (flag == 1){
             model.addAttribute("msg","插入成功");
@@ -126,7 +126,7 @@ public class DealController {
     @ResponseBody
     public List<Deal> showAllNeed() {
         List<Deal> allNeed = dealService.queryAllNeed();
-        //System.out.println(allNeed);
+        System.out.println(allNeed);
         return allNeed;
     }
     @RequestMapping("/showAllSupply")

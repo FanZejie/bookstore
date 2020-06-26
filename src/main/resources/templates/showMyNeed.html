@@ -24,9 +24,11 @@
     <tr th:each="need:${needs}">
         <th th:text="${need.getId()}"></th>
         <td th:text="${need.getBookName()}"></td>
-        <td th:text="${need.getPrice()}"></td>
+       <td th:text="${need.getPrice()}"></td>
         <td th:text="${need.getDescription()}"></td>
-        <td th:text="${need.getPicture()}"></td>
+        <!--<td th:text="${need.getPicture()}"></td>-->
+       <!--<td><img width="50px" height="50px" th:src="/path/${need.getPicture()}"></td>错误用法-->
+        <td><img width="50px" height="50px" th:src="@{/Path/{username}/{filename}(filename=${need.getPicture()},username=${need.getUsername()})}"></td>
         <td> <a class="layui-btn" th:href="@{/delNeed?dealId={dealId}(dealId=${need.getId()})}">删除</a></td>
     </tr>
     </tbody>
