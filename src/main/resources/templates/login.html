@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="/layui/css/layui.css">
 	</head>
 	<body>
+	<div style="left: 40%">我已在邮箱1227508134@qq.com密码111111这个账户下添加了一些测试数据方便老师测试</div>
 		<script src="/layui/layui.js"></script>
 		
 		 
@@ -40,6 +41,7 @@
 			    });
 			  })
 		</script>
+
 		<script type="text/javascript" th:inline="javascript">
 			//切换验证码
 			function refreshCode(){
@@ -51,11 +53,13 @@
 				$('.vcode').attr("src", src);
 			}
 		</script>
+
 		<div class="layui-container layui-col-md6 layui-col-md-offset3" style="height: 270px;width: 600px;margin-top: 200px">
 			<div class="layui-icon layui-icon-face-smile-b layui-col-md-offset4"
 				 style="font-size: 40px;width: 500px;height: 80px" th:text="#{login.tip}">
 				用户登录
 			</div>
+
 			<form class="layui-form layui-col-md10 layui-col-md-offset1" action="/login">
 				
 				  <div class="layui-form-item">
