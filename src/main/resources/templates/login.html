@@ -8,8 +8,14 @@
 	<body>
 
 		<script src="/layui/layui.js"></script>
-		
-		 
+
+		 <script>
+			 $(function () {
+				 alert("可使用测试账户testUser@163.com  " +
+						 "密码111111")
+			 });
+
+		 </script>
 		<script>
 		//注意：导航 依赖 element 模块，否则无法进行功能性操作
 		layui.use('element', function(){
@@ -60,7 +66,7 @@
 				用户登录
 			</div>
 
-			<form class="layui-form layui-col-md10 layui-col-md-offset1" action="/login">
+			<form class="layui-form layui-col-md10 layui-col-md-offset1" action="/login" method="post">
 				
 				  <div class="layui-form-item">
 				    <label class="layui-form-label" th:text="#{login.email}">注册邮箱</label>

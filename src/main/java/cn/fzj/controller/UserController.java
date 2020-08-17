@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,7 +21,7 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public String login(Model model, HttpServletRequest request, HttpServletResponse response){
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -47,7 +48,8 @@ public class UserController {
             session.setAttribute("user",loginUser);
             model.addAttribute("user",loginUser);
             model.addAttribute("username",loginUser.getUsername());
-            return "index";
+            //在这里再把所有二手信息放进来不就可以在前端取到了吗
+            return "redirect:/index"; //然后再写一个indexController
         }
 
     }

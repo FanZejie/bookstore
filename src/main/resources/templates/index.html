@@ -4,71 +4,13 @@
 		<meta charset="utf-8">
 		<title></title>
 		<link rel="stylesheet" href="/layui/css/layui.css">
+		<link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css">
 	</head>
 	<body>
 		<script src="/layui/layui.js"></script>
 		<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+		<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script>
-			$(function () {
-				getAllNeed();
-				getAllSupply();
-				alert("首页图片展示还存在一些问题，在Ajax中用拼接HTML语句和响应的数据时，" +
-						"请求图片的路径如果用绝对路径会拒绝访问，如果用/path/他又不能像我在用户展示界面那样请求到springboot配置得虚拟路径映射器。" +
-						"用户个人中心，已发布需求展示界面没有用到Ajax就没有这样的问题"+
-						"我渴望这份工作的心情有点按捺不住，但是又马上要考试了，我先投简历，考完试后我会想办法解决这个问题。")
-			});
-
-			function getAllNeed() {
-				$.ajax({
-					url: "/showAllNeed",
-					success: function (data_need) {//此时返回的是一个list
-						showTableNeed(data_need);
-					}
-				})
-			}
-
-			function showTableNeed(data_need) {
-				var html = "";
-				for (var i = 0; i < data_need.length; i++) {
-					var pictureUrl = data_need[i].picture;
-					html += "<tr>" +
-							"<td>" + data_need[i].bookName + "</td>"+
-					"<td>" + data_need[i].username + "</td>"+
-					"<td>" + data_need[i].price + "</td>"+
-					"<td>" + data_need[i].description + "</td>"+
-					"<td>"+
-					"<img width='50px' height='50px' src='D:/"+data_need[i].username+"/"+data_need[i].picture+"'>"+"</td>"
-					+ "</tr>"
-				}/*这里就很恶心，
-				用/Path/请求不到路径映射
-				用绝对路径他拒绝访问*/
-
-
-				$("#tbody_need").html(html);
-			}
-
-
-			function getAllSupply() {
-				$.ajax({
-					url: "/showAllSupply",
-					success: function (data_supply) {//此时返回的是一个list
-						showTableSupply(data_supply);
-					}
-				})
-			}
-			function showTableSupply(data_supply){
-				var html = "";
-				for (var i = 0; i < data_supply.length; i++) {
-					html += "<tr>" +
-							"<td>" + data_supply[i].bookName + "</td>"+
-							"<td>" + data_supply[i].username + "</td>"+
-							"<td>" + data_supply[i].price + "</td>"+
-							"<td>" + data_supply[i].description + "</td>"
-
-							+ "</tr>"
-				}
-				$("#tbody_supply").html(html);
-			}
 			//注意：导航 依赖 element 模块，否则无法进行功能性操作
 			layui.use('element', function () {
 				var element = layui.element;
@@ -79,8 +21,6 @@
 		layui.use(['laypage', 'layer'], function(){
 		  var laypage = layui.laypage
 		  ,layer = layui.layer;
-		
-
 
 			laypage.render({
 				elem: 'demo8'
@@ -102,7 +42,7 @@
 				    <a href="personalCenter.html">个人中心<span class="layui-badge-dot"></span></a>
 				  </li>
 				  <li class="layui-nav-item" style="margin-left: 20px">
-					  <a href="javascript:;"  th:text="${session.user.username}" style="width: 20px"></a>
+					  <a href="javascript:;"  th:text="${session.user.username}" style="width: 30px;margin-right: 20px"></a>
 				    <dl class="layui-nav-child">
 				      <dd><a href="/logout">退出登录</a></dd>
 				    </dl>
@@ -111,13 +51,15 @@
 		</ul>
 		 
 		<!-- 出售信息展示 -->
-		<div class="layui-tab layui-tab-card">
+		<div class="layui-tab layui-tab-card ">
 		  <ul class="layui-tab-title layui-bg-green">
 		    <li class="layui-this">出售信息</li>
 		    <li>需求信息</li>
 
 		  </ul>
+
 		  <div class="layui-tab-content" style="height: 400px;">
+			  <!--出售信息-->
 		    <div class="layui-tab-item layui-show" style="overflow: scroll;height: 390px">
 				<table class="layui-table">
 				  <colgroup>
@@ -135,13 +77,20 @@
 				    </tr>
 				  </thead>
 				  <tbody id="tbody_need">
-
+				  	<tr th:each="supply : ${allSupply}">
+						<th th:text="${supply.bookName}"></th>
+						<th th:text="${supply.username}"></th>
+						<th th:text="${supply.price}"></th>
+						<th th:text="${supply.description}"></th>
+						<th><img width="50px" height="50px" th:src="@{/Path/{username}/{filename}(filename=${supply.getPicture()},username=${supply.getUsername()})}"></th>
+					</tr>
 				  </tbody>
 				</table>
 
 				
 			</div>
-		    <div class="layui-tab-item">
+			  <!--需求信息-->
+		    <div class="layui-tab-item" style="overflow: scroll;height: 390px">
 				<table class="layui-table">
 					<colgroup>
 						<col width="150">
@@ -158,26 +107,28 @@
 					</tr>
 					</thead>
 					<tbody id="tbody_supply">
-
+					<tr th:each="need : ${allNeed}">
+						<th th:text="${need.bookName}"></th>
+						<th th:text="${need.username}"></th>
+						<th th:text="${need.price}"></th>
+						<th th:text="${need.description}"></th>
+						<th><img width="50px" height="50px" th:src="@{/Path/{username}/{filename}(filename=${need.getPicture()},username=${need.getUsername()})}"></th>
+					</tr>
 					</tbody>
 				</table>
 
-				<div class="layui-row">
-					<div id="demo8" class="layui-col-md8 layui-col-md-offset2"></div>
-				</div>
 			</div>
 
 
 		  </div>
 		</div>
 		<!-- 轮播图 -->
-		<div class="layui-carousel" id="test1">
-		  <div carousel-item>
-		    <div><h1>广告位招租</h1></div>
-		    <div>广告图片1</div>
-		    <div>广告图片2</div>
-		    <div>广告图片3</div>
-		    <div>广告图片4</div>
+		<div class="layui-carousel layui-col-xs8 layui-col-xs-offset2" id="test1" >
+		  <div carousel-item >
+		    <div><img width="100%" height="315px" src="http://img63.ddimg.cn/upload_img/00822/cxtc/750x315-1597038483.jpg"></div>
+		    <div><img width="100%" height="315px" src="http://img61.ddimg.cn/upload_img/00796/lunzhuan/750x315-1597045367.jpg"></div>
+		    <div><img width="100%" height="315px" src="http://img62.ddimg.cn/upload_img/00803/1/750x315-1597142711.jpg"></div>
+		    <div><img width="100%" height="315px" src="http://img60.ddimg.cn/upload_img/00316/by/750x315-1597375434.jpg"></div>
 		  </div>
 		</div>
 		<!-- 条目中可以是任意内容，如：<img src=""> -->
@@ -187,14 +138,45 @@
 		  //建造实例
 		  carousel.render({
 		    elem: '#test1'
-		    ,width: '100%' //设置容器宽度
+		    ,width: '70%' //设置容器宽度
 		    ,arrow: 'always' //始终显示箭头
 		    //,anim: 'updown' //切换动画方式
 		  });
 		});
 		</script>
 
-		<div style="height: 100px;">网站信息</div>
+		<div style="height: 200px;margin-top: 335px" class="layui-bg-cyan layui-row">
+			<div class="layui-col-xs3">
+				<li>联系方式</li>
+				<li>qq:1227508134</li>
+				<li>邮箱:1227508134@qq.com</li>
+				<li>GitHub:https://github.com/FanZejie</li>
+				<li>CSDN:https://blog.csdn.net/qq_42542609</li>
+			</div>
+			<div class="layui-col-xs3">
+				<p>已完成功能</p>
+				<ul>
+					<li>用户发布出售/求购信息</li>
+					<li>图片上传/映射展示</li>
+				</ul>
+
+			</div>
+			<div class="layui-col-xs3">
+				<p>可优化功能</p>
+				<ul>
+					<li>前端界面，有点丑</li>
+					<ul>网站的后台管理</ul>
+						<li>轮播图更换</li>
+						<li>底部信息定制</li>
+						<li>对所有用户管理</li>
+				</ul>
+			</div>
+			<div class="layui-col-xs3">
+				<p>另一作品:小而美的个人博客</p>
+				<p>博客项目比这个项目好很多</p>
+				<p>http://39.107.228.226:8081/</p>
+			</div>
+		</div>
 		</div>
 		
 	</body>
